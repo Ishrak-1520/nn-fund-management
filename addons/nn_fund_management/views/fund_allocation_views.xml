@@ -5,10 +5,10 @@
     <!-- Fund Allocation: Tree View                                    -->
     <!-- ============================================================ -->
     <record id="view_fund_allocation_tree" model="ir.ui.view">
-        <field name="name">nn.fund.allocation.tree</field>
+        <field name="name">nn.fund.allocation.list</field>
         <field name="model">nn.fund.allocation</field>
         <field name="arch" type="xml">
-            <tree string="Fund Allocations"
+            <list string="Fund Allocations"
                   decoration-success="state == 'approved'"
                   decoration-warning="state in ('submitted', 'gm_approved')"
                   decoration-danger="state == 'rejected'"
@@ -27,7 +27,7 @@
                        decoration-danger="state == 'rejected'"
                        decoration-info="state == 'draft'"/>
                 <field name="currency_id" column_invisible="True"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -133,7 +133,7 @@
                         </page>
                         <page string="Approval History" name="history">
                             <field name="approval_history_ids" readonly="1">
-                                <tree create="false" delete="false" edit="false"
+                                <list create="false" delete="false" edit="false"
                                       decoration-success="action in ('gm_approve', 'md_approve')"
                                       decoration-danger="action in ('gm_reject', 'md_reject')">
                                     <field name="date" widget="datetime"/>
@@ -142,7 +142,7 @@
                                     <field name="previous_state"/>
                                     <field name="new_state"/>
                                     <field name="comment"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -199,7 +199,7 @@
     <record id="action_fund_allocation" model="ir.actions.act_window">
         <field name="name">Fund Allocations</field>
         <field name="res_model">nn.fund.allocation</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_fund_allocation_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

@@ -5,10 +5,10 @@
     <!-- Fund Project: Tree View                                       -->
     <!-- ============================================================ -->
     <record id="view_fund_project_tree" model="ir.ui.view">
-        <field name="name">nn.fund.project.tree</field>
+        <field name="name">nn.fund.project.list</field>
         <field name="model">nn.fund.project</field>
         <field name="arch" type="xml">
-            <tree string="Fund Projects">
+            <list string="Fund Projects">
                 <field name="code" optional="show"/>
                 <field name="name"/>
                 <field name="total_allocated" widget="monetary" sum="Total"/>
@@ -22,7 +22,7 @@
                 <field name="approved_unspent" widget="monetary" optional="show"/>
                 <field name="total_spent" widget="monetary" sum="Total"/>
                 <field name="currency_id" column_invisible="True"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -73,7 +73,7 @@
                         </page>
                         <page string="Allocations" name="allocations">
                             <field name="allocation_ids" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="name"/>
                                     <field name="fund_account_id"/>
                                     <field name="amount" widget="monetary"/>
@@ -81,12 +81,12 @@
                                            decoration-success="state == 'approved'"
                                            decoration-warning="state in ('submitted', 'gm_approved')"/>
                                     <field name="currency_id" column_invisible="True"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Requisitions" name="requisitions">
                             <field name="requisition_ids" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="name"/>
                                     <field name="amount" widget="monetary"/>
                                     <field name="total_billed" widget="monetary"/>
@@ -95,7 +95,7 @@
                                            decoration-success="state == 'approved'"
                                            decoration-warning="state in ('submitted', 'gm_approved')"/>
                                     <field name="currency_id" column_invisible="True"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Description" name="description">
@@ -138,7 +138,7 @@
     <record id="action_fund_project" model="ir.actions.act_window">
         <field name="name">Projects</field>
         <field name="res_model">nn.fund.project</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_fund_project_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

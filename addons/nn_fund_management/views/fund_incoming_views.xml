@@ -5,10 +5,10 @@
     <!-- Fund Incoming: Tree View                                      -->
     <!-- ============================================================ -->
     <record id="view_fund_incoming_tree" model="ir.ui.view">
-        <field name="name">nn.fund.incoming.tree</field>
+        <field name="name">nn.fund.incoming.list</field>
         <field name="model">nn.fund.incoming</field>
         <field name="arch" type="xml">
-            <tree string="Incoming Funds"
+            <list string="Incoming Funds"
                   decoration-success="state == 'confirmed'"
                   decoration-muted="state == 'cancelled'">
                 <field name="name"/>
@@ -22,7 +22,7 @@
                        decoration-info="state == 'draft'"
                        decoration-danger="state == 'cancelled'"/>
                 <field name="currency_id" column_invisible="True"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -131,7 +131,7 @@
     <record id="action_fund_incoming" model="ir.actions.act_window">
         <field name="name">Incoming Funds</field>
         <field name="res_model">nn.fund.incoming</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_fund_incoming_search"/>
         <field name="context">{'search_default_filter_confirmed': 0}</field>
         <field name="help" type="html">

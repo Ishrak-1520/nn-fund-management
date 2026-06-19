@@ -5,10 +5,10 @@
     <!-- Fund Requisition: Tree View                                   -->
     <!-- ============================================================ -->
     <record id="view_fund_requisition_tree" model="ir.ui.view">
-        <field name="name">nn.fund.requisition.tree</field>
+        <field name="name">nn.fund.requisition.list</field>
         <field name="model">nn.fund.requisition</field>
         <field name="arch" type="xml">
-            <tree string="Fund Requisitions"
+            <list string="Fund Requisitions"
                   decoration-success="state == 'approved'"
                   decoration-warning="state in ('submitted', 'gm_approved')"
                   decoration-danger="state == 'rejected'"
@@ -31,7 +31,7 @@
                        decoration-info="state == 'draft'"
                        decoration-muted="state in ('cancelled', 'closed')"/>
                 <field name="currency_id" column_invisible="True"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -152,7 +152,7 @@
                         <page string="Bills" name="bills"
                               invisible="state not in ('approved', 'closed')">
                             <field name="bill_ids" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="name"/>
                                     <field name="date"/>
                                     <field name="amount_total_signed" widget="monetary"
@@ -161,12 +161,12 @@
                                            decoration-success="state == 'posted'"
                                            decoration-info="state == 'draft'"/>
                                     <field name="currency_id" column_invisible="True"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Approval History" name="history">
                             <field name="approval_history_ids" readonly="1">
-                                <tree create="false" delete="false" edit="false"
+                                <list create="false" delete="false" edit="false"
                                       decoration-success="action in ('gm_approve', 'md_approve')"
                                       decoration-danger="action in ('gm_reject', 'md_reject')">
                                     <field name="date" widget="datetime"/>
@@ -175,7 +175,7 @@
                                     <field name="previous_state"/>
                                     <field name="new_state"/>
                                     <field name="comment"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -229,7 +229,7 @@
     <record id="action_fund_requisition" model="ir.actions.act_window">
         <field name="name">Fund Requisitions</field>
         <field name="res_model">nn.fund.requisition</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_fund_requisition_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

@@ -5,10 +5,10 @@
     <!-- Fund Account: Tree View                                       -->
     <!-- ============================================================ -->
     <record id="view_fund_account_tree" model="ir.ui.view">
-        <field name="name">nn.fund.account.tree</field>
+        <field name="name">nn.fund.account.list</field>
         <field name="model">nn.fund.account</field>
         <field name="arch" type="xml">
-            <tree string="Fund Accounts">
+            <list string="Fund Accounts">
                 <field name="code" optional="show"/>
                 <field name="name"/>
                 <field name="account_type"/>
@@ -21,7 +21,7 @@
                 <field name="total_assigned" widget="monetary" sum="Total"/>
                 <field name="currency_id" column_invisible="True"/>
                 <field name="company_id" groups="base.group_multi_company" optional="hide"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -81,7 +81,7 @@
                         </page>
                         <page string="Incoming Funds" name="incoming_funds">
                             <field name="incoming_fund_ids" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="name"/>
                                     <field name="date"/>
                                     <field name="amount" widget="monetary"/>
@@ -92,12 +92,12 @@
                                            decoration-info="state == 'draft'"
                                            decoration-danger="state == 'cancelled'"/>
                                     <field name="currency_id" column_invisible="True"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                         <page string="Allocations" name="allocations">
                             <field name="allocation_ids" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="name"/>
                                     <field name="allocation_type"/>
                                     <field name="project_id"/>
@@ -108,7 +108,7 @@
                                            decoration-warning="state in ('submitted', 'gm_approved')"
                                            decoration-danger="state in ('rejected', 'cancelled')"/>
                                     <field name="currency_id" column_invisible="True"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -154,7 +154,7 @@
     <record id="action_fund_account" model="ir.actions.act_window">
         <field name="name">Fund Accounts</field>
         <field name="res_model">nn.fund.account</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_fund_account_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
