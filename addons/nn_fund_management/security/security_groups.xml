@@ -64,6 +64,7 @@
             <field name="name">Fund Administrator</field>
             <field name="category_id" ref="module_category_fund_management"/>
             <field name="implied_ids" eval="[(4, ref('group_finance_user')), (4, ref('group_md_approver'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
             <field name="comment">
                 Full access to all fund management features.
                 Can cancel approved transactions.
