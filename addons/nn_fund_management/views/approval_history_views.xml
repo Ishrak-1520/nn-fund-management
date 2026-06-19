@@ -58,7 +58,7 @@
                             <field name="expense_head_id"/>
                         </group>
                     </group>
-                    <group string="Comment" attrs="{'invisible': [('comment', '=', False)]}">
+                    <group string="Comment" invisible="not comment">
                         <field name="comment" nolabel="1"/>
                     </group>
                 </sheet>
