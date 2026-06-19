@@ -20,5 +20,6 @@ access_fund_requisition_admin,nn.fund.requisition.admin,model_nn_fund_requisitio
 access_fund_transfer_user,nn.fund.transfer.user,model_nn_fund_transfer,group_fund_user,1,1,1,0
 access_fund_transfer_gm,nn.fund.transfer.gm,model_nn_fund_transfer,group_gm_approver,1,1,1,0
 access_fund_transfer_admin,nn.fund.transfer.admin,model_nn_fund_transfer,group_fund_administrator,1,1,1,1
-access_approval_history_user,nn.approval.history.user,model_nn_approval_history,group_fund_user,1,0,0,0
+access_nn_fund_dashboard_fund_user,nn.fund.dashboard fund user,model_nn_fund_dashboard,group_fund_user,1,1,1,1
+access_nn_approval_history_fund_user,nn.approval.history fund user,model_nn_approval_history,group_fund_user,1,0,0,0
 access_approval_history_admin,nn.approval.history.admin,model_nn_approval_history,group_fund_administrator,1,1,1,1

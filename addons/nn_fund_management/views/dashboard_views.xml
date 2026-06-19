@@ -41,7 +41,7 @@
     <!-- ============================================================ -->
     <record id="view_fund_dashboard" model="ir.ui.view">
         <field name="name">nn.fund.dashboard</field>
-        <field name="model">nn.fund.account</field>
+        <field name="model">nn.fund.dashboard</field>
         <field name="arch" type="xml">
             <form string="Fund Management Dashboard" create="false" edit="false" delete="false">
                 <sheet>
@@ -59,8 +59,9 @@
                                             <i class="fa fa-money fa-2x d-block mb-2"/>
                                             Fund Accounts
                                         </h6>
+                                        <h3 class="mt-2"><field name="total_received" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/></h3>
                                         <a type="action" name="%(action_fund_account)d"
-                                           class="btn btn-light btn-sm mt-2">View All</a>
+                                           class="btn btn-light btn-sm mt-2 text-primary">View All</a>
                                     </div>
                                 </div>
                             </div>
@@ -69,10 +70,11 @@
                                     <div class="card-body text-center">
                                         <h6 class="card-title">
                                             <i class="fa fa-download fa-2x d-block mb-2"/>
-                                            Incoming Funds
+                                            Unassigned Balance
                                         </h6>
+                                        <h3 class="mt-2"><field name="total_unassigned" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/></h3>
                                         <a type="action" name="%(action_fund_incoming)d"
-                                           class="btn btn-light btn-sm mt-2">View All</a>
+                                           class="btn btn-light btn-sm mt-2 text-success">Incoming Funds</a>
                                     </div>
                                 </div>
                             </div>
@@ -83,6 +85,7 @@
                                             <i class="fa fa-clock-o fa-2x d-block mb-2"/>
                                             Pending Approvals
                                         </h6>
+                                        <h3 class="mt-2"><field name="pending_allocations" readonly="1"/> Allocations</h3>
                                         <a type="action" name="%(action_pending_approvals)d"
                                            class="btn btn-dark btn-sm mt-2">Review</a>
                                     </div>
@@ -93,29 +96,11 @@
                                     <div class="card-body text-center">
                                         <h6 class="card-title">
                                             <i class="fa fa-history fa-2x d-block mb-2"/>
-                                            Audit Trail
+                                            Total Spent
                                         </h6>
+                                        <h3 class="mt-2"><field name="total_spent" readonly="1" widget="monetary" options="{'currency_field': 'currency_id'}"/></h3>
                                         <a type="action" name="%(action_approval_history)d"
-                                           class="btn btn-light btn-sm mt-2">View All</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Balance Overview Row -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <div class="card shadow-sm">
-                                    <div class="card-header bg-dark text-white">
-                                        <h5 class="mb-0">
-                                            <i class="fa fa-bar-chart me-2"/>
-                                            Fund Account Balances
-                                        </h5>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <a type="action" name="%(action_fund_account)d">
-                                            Click here to view all fund account balances
-                                        </a>
+                                           class="btn btn-light btn-sm mt-2 text-info">Audit Trail</a>
                                     </div>
                                 </div>
                             </div>
@@ -125,29 +110,39 @@
                         <div class="row">
                             <div class="col-lg-6 mb-3">
                                 <div class="card shadow-sm h-100">
-                                    <div class="card-header bg-primary text-white">
+                                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                                         <h5 class="mb-0">
                                             <i class="fa fa-folder me-2"/>Projects
                                         </h5>
+                                        <a type="action" name="%(action_fund_project)d" class="btn btn-sm btn-light text-primary">All Projects</a>
                                     </div>
                                     <div class="card-body p-0">
-                                        <a type="action" name="%(action_fund_project)d">
-                                            View project allocations and balances
-                                        </a>
+                                        <field name="project_ids" readonly="1">
+                                            <list>
+                                                <field name="name"/>
+                                                <field name="available_balance" sum="Available"/>
+                                                <field name="approved_unspent" sum="Reserved"/>
+                                            </list>
+                                        </field>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-6 mb-3">
                                 <div class="card shadow-sm h-100">
-                                    <div class="card-header bg-success text-white">
+                                    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
                                         <h5 class="mb-0">
                                             <i class="fa fa-tags me-2"/>Expense Heads
                                         </h5>
+                                        <a type="action" name="%(action_fund_expense_head)d" class="btn btn-sm btn-light text-success">All Expenses</a>
                                     </div>
                                     <div class="card-body p-0">
-                                        <a type="action" name="%(action_fund_expense_head)d">
-                                            View expense head allocations and balances
-                                        </a>
+                                        <field name="expense_head_ids" readonly="1">
+                                            <list>
+                                                <field name="name"/>
+                                                <field name="available_balance" sum="Available"/>
+                                                <field name="approved_unspent" sum="Reserved"/>
+                                            </list>
+                                        </field>
                                     </div>
                                 </div>
                             </div>
@@ -159,12 +154,13 @@
     </record>
 
     <!-- Dashboard Action -->
-    <record id="action_fund_dashboard" model="ir.actions.act_window">
+    <record id="action_fund_dashboard" model="ir.actions.server">
         <field name="name">Dashboard</field>
-        <field name="res_model">nn.fund.account</field>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="view_fund_dashboard"/>
-        <field name="target">inline</field>
+        <field name="model_id" ref="model_nn_fund_dashboard"/>
+        <field name="state">code</field>
+        <field name="code">
+action = model.action_open_dashboard()
+        </field>
     </record>
 
 </odoo>

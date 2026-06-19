@@ -9,4 +9,5 @@ from . import fund_expense_head
 from . import fund_allocation
 from . import fund_requisition
 from . import fund_transfer
+from . import fund_dashboard
 from . import account_move
