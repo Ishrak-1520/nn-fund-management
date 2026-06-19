@@ -2,6 +2,41 @@
 <odoo>
 
     <!-- ============================================================ -->
+    <!-- Pending Approvals Action (filtered allocations/requisitions)   -->
+    <!-- ============================================================ -->
+    <record id="action_pending_allocations" model="ir.actions.act_window">
+        <field name="name">Pending Allocations</field>
+        <field name="res_model">nn.fund.allocation</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', 'in', ['submitted', 'gm_approved'])]</field>
+        <field name="context">{'search_default_filter_pending': 1}</field>
+    </record>
+
+    <record id="action_pending_requisitions" model="ir.actions.act_window">
+        <field name="name">Pending Requisitions</field>
+        <field name="res_model">nn.fund.requisition</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', 'in', ['submitted', 'gm_approved'])]</field>
+        <field name="context">{'search_default_filter_pending': 1}</field>
+    </record>
+
+    <record id="action_pending_transfers" model="ir.actions.act_window">
+        <field name="name">Pending Transfers</field>
+        <field name="res_model">nn.fund.transfer</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', 'in', ['submitted', 'gm_approved'])]</field>
+        <field name="context">{'search_default_filter_pending': 1}</field>
+    </record>
+
+    <!-- Combined Pending Approvals Action Menu -->
+    <record id="action_pending_approvals" model="ir.actions.act_window">
+        <field name="name">Pending Approvals</field>
+        <field name="res_model">nn.fund.allocation</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', 'in', ['submitted', 'gm_approved'])]</field>
+    </record>
+
+    <!-- ============================================================ -->
     <!-- Fund Management Dashboard                                     -->
     <!-- ============================================================ -->
     <record id="view_fund_dashboard" model="ir.ui.view">
@@ -121,41 +156,6 @@
                 </sheet>
             </form>
         </field>
-    </record>
-
-    <!-- ============================================================ -->
-    <!-- Pending Approvals Action (filtered allocations/requisitions)   -->
-    <!-- ============================================================ -->
-    <record id="action_pending_allocations" model="ir.actions.act_window">
-        <field name="name">Pending Allocations</field>
-        <field name="res_model">nn.fund.allocation</field>
-        <field name="view_mode">list,form</field>
-        <field name="domain">[('state', 'in', ['submitted', 'gm_approved'])]</field>
-        <field name="context">{'search_default_filter_pending': 1}</field>
-    </record>
-
-    <record id="action_pending_requisitions" model="ir.actions.act_window">
-        <field name="name">Pending Requisitions</field>
-        <field name="res_model">nn.fund.requisition</field>
-        <field name="view_mode">list,form</field>
-        <field name="domain">[('state', 'in', ['submitted', 'gm_approved'])]</field>
-        <field name="context">{'search_default_filter_pending': 1}</field>
-    </record>
-
-    <record id="action_pending_transfers" model="ir.actions.act_window">
-        <field name="name">Pending Transfers</field>
-        <field name="res_model">nn.fund.transfer</field>
-        <field name="view_mode">list,form</field>
-        <field name="domain">[('state', 'in', ['submitted', 'gm_approved'])]</field>
-        <field name="context">{'search_default_filter_pending': 1}</field>
-    </record>
-
-    <!-- Combined Pending Approvals Action Menu -->
-    <record id="action_pending_approvals" model="ir.actions.act_window">
-        <field name="name">Pending Approvals</field>
-        <field name="res_model">nn.fund.allocation</field>
-        <field name="view_mode">list,form</field>
-        <field name="domain">[('state', 'in', ['submitted', 'gm_approved'])]</field>
     </record>
 
     <!-- Dashboard Action -->
