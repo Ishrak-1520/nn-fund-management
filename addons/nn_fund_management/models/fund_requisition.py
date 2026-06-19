@@ -273,7 +273,7 @@ class FundRequisition(models.Model):
             'type': 'ir.actions.act_window',
             'name': _('Bills'),
             'res_model': 'account.move',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [
                 ('fund_requisition_id', '=', self.id),
                 ('move_type', '=', 'in_invoice'),
