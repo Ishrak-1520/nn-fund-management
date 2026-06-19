@@ -44,7 +44,6 @@ Approval Workflow:
         'data/sequence_data.xml',
 
         # Views
-        'views/menu_views.xml',
         'views/fund_account_views.xml',
         'views/fund_incoming_views.xml',
         'views/fund_allocation_views.xml',
@@ -55,6 +54,7 @@ Approval Workflow:
         'views/fund_transfer_views.xml',
         'views/approval_history_views.xml',
         'views/dashboard_views.xml',
+        'views/menu_views.xml',
     ],
     'demo': [
         'data/demo_data.xml',
