@@ -1,0 +1,56 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+*.egg-info/
+*.egg
+dist/
+build/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+
+# Environment variables
+.env
+
+# Docker volumes (if stored locally)
+pgdata/
+odoo-data/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Odoo filestore (if mounted locally)
+filestore/
+
+# Log files
+*.log
+
+# Backup files
+*.bak
+*.backup
+
+# Assessment guidelines, artifacts, plans and demo scripts
+Technical Assessment.md
+Technical Assessment.pdf
+implementation_plan*
+walkthrough*
+*.zip
+Video_Demo_Script.pdf
+submission.veg
+

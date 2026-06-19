@@ -1,0 +1,2 @@
+# Additional Python dependencies for nn_fund_management
+# (Add any extra libraries needed here)

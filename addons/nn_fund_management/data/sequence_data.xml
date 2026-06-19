@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ============================================================ -->
+        <!-- Auto-Number Sequences                                         -->
+        <!-- ============================================================ -->
+
+        <!-- Incoming Fund Sequence -->
+        <record id="seq_fund_incoming" model="ir.sequence">
+            <field name="name">Fund Incoming</field>
+            <field name="code">nn.fund.incoming</field>
+            <field name="prefix">FIN/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Fund Allocation Sequence -->
+        <record id="seq_fund_allocation" model="ir.sequence">
+            <field name="name">Fund Allocation</field>
+            <field name="code">nn.fund.allocation</field>
+            <field name="prefix">FA/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Fund Requisition Sequence -->
+        <record id="seq_fund_requisition" model="ir.sequence">
+            <field name="name">Fund Requisition</field>
+            <field name="code">nn.fund.requisition</field>
+            <field name="prefix">FR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Fund Transfer Sequence -->
+        <record id="seq_fund_transfer" model="ir.sequence">
+            <field name="name">Fund Transfer</field>
+            <field name="code">nn.fund.transfer</field>
+            <field name="prefix">FT/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>
