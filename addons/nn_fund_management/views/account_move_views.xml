@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- Account Move (Vendor Bill): Inherit Form View                 -->
+    <!-- ============================================================ -->
+    <record id="view_account_move_form_inherit_fund" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.fund</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- Add fund requisition field to vendor bill form -->
+            <xpath expr="//field[@name='invoice_date']" position="after">
+                <field name="fund_requisition_id"
+                       invisible="move_type != 'in_invoice'"
+                       domain="[('state', '=', 'approved'), ('remaining_billable', '&gt;', 0)]"
+                       options="{'no_create': True}"/>
+                <field name="fund_project_id"
+                       invisible="not fund_requisition_id or move_type != 'in_invoice'"
+                       readonly="1"/>
+                <field name="fund_expense_head_id"
+                       invisible="not fund_requisition_id or move_type != 'in_invoice'"
+                       readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Account Move: Tree View for Fund Bills                        -->
+    <!-- ============================================================ -->
+    <record id="view_fund_bills_tree" model="ir.ui.view">
+        <field name="name">account.move.tree.fund.bills</field>
+        <field name="model">account.move</field>
+        <field name="arch" type="xml">
+            <tree string="Fund Bills"
+                  decoration-success="state == 'posted'"
+                  decoration-muted="state == 'cancel'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="partner_id" string="Vendor"/>
+                <field name="fund_requisition_id"/>
+                <field name="fund_project_id" optional="show"/>
+                <field name="fund_expense_head_id" optional="show"/>
+                <field name="amount_total_signed" widget="monetary" string="Amount" sum="Total"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'posted'"
+                       decoration-info="state == 'draft'"
+                       decoration-danger="state == 'cancel'"/>
+                <field name="currency_id" column_invisible="True"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Fund Bills: Action (filtered to vendor bills with requisition) -->
+    <!-- ============================================================ -->
+    <record id="action_fund_bills" model="ir.actions.act_window">
+        <field name="name">Fund Bills</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[
+            ('move_type', '=', 'in_invoice'),
+            ('fund_requisition_id', '!=', False)
+        ]</field>
+        <field name="context">{
+            'default_move_type': 'in_invoice',
+        }</field>
+        <field name="view_id" ref="view_fund_bills_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No fund-linked bills yet
+            </p>
+            <p>
+                Bills linked to fund requisitions will appear here.
+                Create a vendor bill and link it to an approved requisition.
+            </p>
+        </field>
+    </record>
+
+</odoo>

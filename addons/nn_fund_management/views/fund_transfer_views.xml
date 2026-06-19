@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- Fund Transfer: Tree View                                      -->
+    <!-- ============================================================ -->
+    <record id="view_fund_transfer_tree" model="ir.ui.view">
+        <field name="name">nn.fund.transfer.tree</field>
+        <field name="model">nn.fund.transfer</field>
+        <field name="arch" type="xml">
+            <tree string="Fund Transfers"
+                  decoration-success="state == 'approved'"
+                  decoration-warning="state in ('submitted', 'gm_approved')"
+                  decoration-danger="state == 'rejected'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="request_date"/>
+                <field name="source_display" string="Source"/>
+                <field name="dest_display" string="Destination"/>
+                <field name="amount" widget="monetary" sum="Total"/>
+                <field name="requested_by" widget="many2one_avatar_user"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'approved'"
+                       decoration-warning="state in ('submitted', 'gm_approved')"
+                       decoration-danger="state == 'rejected'"
+                       decoration-info="state == 'draft'"/>
+                <field name="currency_id" column_invisible="True"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Fund Transfer: Form View                                      -->
+    <!-- ============================================================ -->
+    <record id="view_fund_transfer_form" model="ir.ui.view">
+        <field name="name">nn.fund.transfer.form</field>
+        <field name="model">nn.fund.transfer</field>
+        <field name="arch" type="xml">
+            <form string="Fund Transfer">
+                <header>
+                    <button name="action_submit" type="object"
+                            string="Submit" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_gm_approve" type="object"
+                            string="GM Approve" class="btn-primary"
+                            invisible="state != 'submitted'"
+                            groups="nn_fund_management.group_gm_approver"/>
+                    <button name="action_gm_reject" type="object"
+                            string="GM Reject" class="btn-danger"
+                            invisible="state != 'submitted'"
+                            groups="nn_fund_management.group_gm_approver"/>
+                    <button name="action_md_approve" type="object"
+                            string="MD Approve" class="btn-primary"
+                            invisible="state != 'gm_approved'"
+                            groups="nn_fund_management.group_md_approver"/>
+                    <button name="action_md_reject" type="object"
+                            string="MD Reject" class="btn-danger"
+                            invisible="state != 'gm_approved'"
+                            groups="nn_fund_management.group_md_approver"/>
+                    <button name="action_cancel" type="object"
+                            string="Cancel" class="btn-secondary"
+                            invisible="state in ('draft', 'rejected', 'cancelled')"
+                            confirm="Are you sure you want to cancel this transfer?"/>
+                    <button name="action_reset_to_draft" type="object"
+                            string="Reset to Draft" class="btn-secondary"
+                            invisible="state not in ('rejected', 'cancelled')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,submitted,gm_approved,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Source">
+                            <field name="source_type" widget="radio"/>
+                            <field name="source_project_id"
+                                   invisible="source_type != 'project'"
+                                   required="source_type == 'project'"/>
+                            <field name="source_expense_head_id"
+                                   invisible="source_type != 'expense_head'"
+                                   required="source_type == 'expense_head'"/>
+                        </group>
+                        <group string="Destination">
+                            <field name="dest_type" widget="radio"/>
+                            <field name="dest_project_id"
+                                   invisible="dest_type != 'project'"
+                                   required="dest_type == 'project'"/>
+                            <field name="dest_expense_head_id"
+                                   invisible="dest_type != 'expense_head'"
+                                   required="dest_type == 'expense_head'"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Transfer Details">
+                            <field name="amount" widget="monetary"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group string="Request Info">
+                            <field name="requested_by" widget="many2one_avatar_user"/>
+                            <field name="request_date"/>
+                            <field name="submitted_date" invisible="state == 'draft'"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <!-- Approval Details -->
+                    <group invisible="state == 'draft'" string="Approval Details">
+                        <group>
+                            <field name="gm_approver_id" widget="many2one_avatar_user"/>
+                            <field name="gm_approval_date"/>
+                            <field name="gm_comment"/>
+                        </group>
+                        <group>
+                            <field name="md_approver_id" widget="many2one_avatar_user"/>
+                            <field name="md_approval_date"/>
+                            <field name="md_comment"/>
+                        </group>
+                    </group>
+                    <group invisible="state not in ('rejected', 'cancelled')">
+                        <field name="rejection_reason"/>
+                        <field name="cancelled_by" invisible="state != 'cancelled'"/>
+                        <field name="cancelled_date" invisible="state != 'cancelled'"/>
+                    </group>
+                    <notebook>
+                        <page string="Reason" name="reason">
+                            <field name="reason"
+                                   placeholder="Explain why this fund transfer is needed..."/>
+                        </page>
+                        <page string="Approval History" name="history">
+                            <field name="approval_history_ids" readonly="1">
+                                <tree create="false" delete="false" edit="false"
+                                      decoration-success="action in ('gm_approve', 'md_approve')"
+                                      decoration-danger="action in ('gm_reject', 'md_reject')">
+                                    <field name="date" widget="datetime"/>
+                                    <field name="action"/>
+                                    <field name="user_id" widget="many2one_avatar_user"/>
+                                    <field name="previous_state"/>
+                                    <field name="new_state"/>
+                                    <field name="comment"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Fund Transfer: Search View                                    -->
+    <!-- ============================================================ -->
+    <record id="view_fund_transfer_search" model="ir.ui.view">
+        <field name="name">nn.fund.transfer.search</field>
+        <field name="model">nn.fund.transfer</field>
+        <field name="arch" type="xml">
+            <search string="Search Transfers">
+                <field name="name"/>
+                <field name="source_project_id"/>
+                <field name="source_expense_head_id"/>
+                <field name="dest_project_id"/>
+                <field name="dest_expense_head_id"/>
+                <field name="requested_by"/>
+                <separator/>
+                <filter name="filter_draft" string="Draft"
+                        domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_pending" string="Pending Approval"
+                        domain="[('state', 'in', ['submitted', 'gm_approved'])]"/>
+                <filter name="filter_approved" string="Approved"
+                        domain="[('state', '=', 'approved')]"/>
+                <separator/>
+                <filter name="filter_my_requests" string="My Requests"
+                        domain="[('requested_by', '=', uid)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_state" string="Status"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_by_source_type" string="Source Type"
+                            context="{'group_by': 'source_type'}"/>
+                    <filter name="group_by_dest_type" string="Destination Type"
+                            context="{'group_by': 'dest_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Fund Transfer: Action                                         -->
+    <!-- ============================================================ -->
+    <record id="action_fund_transfer" model="ir.actions.act_window">
+        <field name="name">Fund Transfers</field>
+        <field name="res_model">nn.fund.transfer</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_fund_transfer_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new fund transfer
+            </p>
+            <p>
+                Transfer funds between projects and expense heads.
+                Requires GM and MD approval.
+            </p>
+        </field>
+    </record>
+
+</odoo>
