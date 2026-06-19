@@ -10,15 +10,16 @@
 1. [Overview](#overview)
 2. [Features](#features)
 3. [Architecture](#architecture)
-4. [Prerequisites](#prerequisites)
-5. [Quick Start (Docker)](#quick-start-docker)
-6. [Manual Installation](#manual-installation)
-7. [Module Configuration](#module-configuration)
-8. [Demo Walkthrough](#demo-walkthrough)
-9. [Security Model](#security-model)
-10. [Technical Details](#technical-details)
-11. [Testing](#testing)
-12. [Project Structure](#project-structure)
+4. [Assumptions & Known Limitations](#assumptions--known-limitations)
+5. [Prerequisites](#prerequisites)
+6. [Quick Start (Docker)](#quick-start-docker)
+7. [Manual Installation](#manual-installation)
+8. [Module Configuration](#module-configuration)
+9. [Demo Walkthrough](#demo-walkthrough)
+10. [Security Model](#security-model)
+11. [Technical Details](#technical-details)
+12. [Testing](#testing)
+13. [Project Structure](#project-structure)
 
 ---
 
@@ -129,6 +130,20 @@ def _on_submit_validate(self):
     if self.amount > available:
         raise UserError(...)
 ```
+
+---
+
+## Assumptions & Known Limitations
+
+### Assumptions
+1. **Multi-Company Operations**: It is assumed that fund accounts, projects, and expense heads belong to specific companies, and cross-company fund allocations are not permitted by default.
+2. **Approval Hierarchy**: The requirement states GM and MD approval. It is assumed that *any* user in the GM group can approve Level 1, and *any* user in the MD group can approve Level 2, rather than routing to a specific employee's direct manager.
+3. **Bill Lifecycle**: It is assumed that Vendor Bills (account.move) generated against a Requisition are managed by the Accounting department. The Requisition's `total_billed` relies strictly on the `posted` state of the invoice.
+
+### Known Limitations
+1. **Bank Email Integration**: The Bank Email Integration is currently a conceptual prototype/bonus feature and does not have active IMAP fetching capabilities in this build to avoid storing hardcoded credentials.
+2. **Dynamic Approval Routing**: Approval rules are strictly tied to Odoo Security Groups. Highly dynamic rule engines (e.g., routing based on specific departmental thresholds) would require an extension of the `nn.approval.mixin`.
+3. **Multi-Currency**: While currency fields are implemented using `res.currency`, extreme multi-currency scenarios (where the Bank Account, Project, and Vendor Bill are all in entirely different currencies) rely on Odoo's base currency conversion rates at the time of posting, which may result in slight rounding discrepancies in `remaining_billable` fields.
 
 ---
 
