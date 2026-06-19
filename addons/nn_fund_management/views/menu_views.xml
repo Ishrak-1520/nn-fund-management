@@ -12,6 +12,16 @@
         groups="group_fund_user"/>
 
     <!-- ============================================================ -->
+    <!-- Dashboard (first menu item)                                   -->
+    <!-- ============================================================ -->
+    <menuitem
+        id="menu_fund_dashboard"
+        name="Dashboard"
+        parent="menu_fund_management_root"
+        action="action_fund_dashboard"
+        sequence="1"/>
+
+    <!-- ============================================================ -->
     <!-- Sub-Menu: Operations                                          -->
     <!-- ============================================================ -->
     <menuitem

@@ -54,8 +54,10 @@ Approval Workflow:
         'views/account_move_views.xml',
         'views/fund_transfer_views.xml',
         'views/approval_history_views.xml',
+        'views/dashboard_views.xml',
     ],
     'demo': [
+        'data/demo_data.xml',
     ],
     'installable': True,
     'application': True,

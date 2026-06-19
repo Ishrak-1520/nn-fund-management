@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ============================================================ -->
+        <!-- Demo Users (matching assessment roles)                        -->
+        <!-- ============================================================ -->
+        <record id="demo_user_fund" model="res.users">
+            <field name="name">Fund User (Demo)</field>
+            <field name="login">demo_fund_user</field>
+            <field name="email">fund.user@demo.nnsel.com</field>
+            <field name="password">demo_fund_user</field>
+            <field name="groups_id" eval="[
+                (4, ref('nn_fund_management.group_fund_user')),
+                (4, ref('base.group_user')),
+            ]"/>
+        </record>
+
+        <record id="demo_user_finance" model="res.users">
+            <field name="name">Finance Officer (Demo)</field>
+            <field name="login">demo_finance</field>
+            <field name="email">finance@demo.nnsel.com</field>
+            <field name="password">demo_finance</field>
+            <field name="groups_id" eval="[
+                (4, ref('nn_fund_management.group_finance_user')),
+                (4, ref('base.group_user')),
+            ]"/>
+        </record>
+
+        <record id="demo_user_gm" model="res.users">
+            <field name="name">General Manager (Demo)</field>
+            <field name="login">demo_gm</field>
+            <field name="email">gm@demo.nnsel.com</field>
+            <field name="password">demo_gm</field>
+            <field name="groups_id" eval="[
+                (4, ref('nn_fund_management.group_gm_approver')),
+                (4, ref('base.group_user')),
+            ]"/>
+        </record>
+
+        <record id="demo_user_md" model="res.users">
+            <field name="name">Managing Director (Demo)</field>
+            <field name="login">demo_md</field>
+            <field name="email">md@demo.nnsel.com</field>
+            <field name="password">demo_md</field>
+            <field name="groups_id" eval="[
+                (4, ref('nn_fund_management.group_md_approver')),
+                (4, ref('base.group_user')),
+            ]"/>
+        </record>
+
+        <record id="demo_user_admin" model="res.users">
+            <field name="name">Fund Administrator (Demo)</field>
+            <field name="login">demo_admin</field>
+            <field name="email">admin@demo.nnsel.com</field>
+            <field name="password">demo_admin</field>
+            <field name="groups_id" eval="[
+                (4, ref('nn_fund_management.group_fund_administrator')),
+                (4, ref('base.group_user')),
+                (4, ref('account.group_account_manager')),
+            ]"/>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- Demo Fund Accounts (matching demo step 1)                     -->
+        <!-- ============================================================ -->
+        <record id="demo_fund_account_main" model="nn.fund.account">
+            <field name="name">Main Bank Account</field>
+            <field name="code">MBA</field>
+            <field name="account_type">bank</field>
+            <field name="description">Primary bank account for fund management.</field>
+        </record>
+
+        <record id="demo_fund_account_cash" model="nn.fund.account">
+            <field name="name">Petty Cash</field>
+            <field name="code">PC</field>
+            <field name="account_type">cash</field>
+            <field name="description">Petty cash fund for small expenses.</field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- Demo Incoming Funds (matching demo step 2: 5,000,000)         -->
+        <!-- ============================================================ -->
+        <record id="demo_incoming_1" model="nn.fund.incoming">
+            <field name="fund_account_id" ref="demo_fund_account_main"/>
+            <field name="amount">5000000</field>
+            <field name="transaction_reference">WIRE-2026-001</field>
+            <field name="sender">NN Engineering HQ</field>
+            <field name="description">Initial operating fund for Q1 2026.</field>
+        </record>
+
+        <record id="demo_incoming_2" model="nn.fund.incoming">
+            <field name="fund_account_id" ref="demo_fund_account_main"/>
+            <field name="amount">2000000</field>
+            <field name="transaction_reference">WIRE-2026-002</field>
+            <field name="sender">Client ABC Corp</field>
+            <field name="description">Project payment from ABC Corp.</field>
+        </record>
+
+        <record id="demo_incoming_petty" model="nn.fund.incoming">
+            <field name="fund_account_id" ref="demo_fund_account_cash"/>
+            <field name="amount">200000</field>
+            <field name="transaction_reference">CASH-2026-001</field>
+            <field name="sender">Internal Transfer</field>
+            <field name="description">Petty cash replenishment.</field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- Demo Projects (matching demo step 3)                          -->
+        <!-- ============================================================ -->
+        <record id="demo_project_a" model="nn.fund.project">
+            <field name="name">Project Alpha</field>
+            <field name="code">PA</field>
+            <field name="description">Main development project for client Alpha.</field>
+        </record>
+
+        <record id="demo_project_b" model="nn.fund.project">
+            <field name="name">Project Beta</field>
+            <field name="code">PB</field>
+            <field name="description">Infrastructure upgrade project Beta.</field>
+        </record>
+
+        <record id="demo_project_c" model="nn.fund.project">
+            <field name="name">Project Gamma</field>
+            <field name="code">PG</field>
+            <field name="description">Research and development project Gamma.</field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- Demo Expense Heads                                            -->
+        <!-- ============================================================ -->
+        <record id="demo_expense_rent" model="nn.fund.expense.head">
+            <field name="name">Office Rent</field>
+            <field name="code">RENT</field>
+            <field name="description">Monthly office space rental expenses.</field>
+        </record>
+
+        <record id="demo_expense_salary" model="nn.fund.expense.head">
+            <field name="name">Staff Salary</field>
+            <field name="code">SAL</field>
+            <field name="description">Employee salary and compensation expenses.</field>
+        </record>
+
+        <record id="demo_expense_utility" model="nn.fund.expense.head">
+            <field name="name">Utility Expenses</field>
+            <field name="code">UTIL</field>
+            <field name="description">Electricity, water, internet, and phone bills.</field>
+        </record>
+
+        <record id="demo_expense_marketing" model="nn.fund.expense.head">
+            <field name="name">Marketing</field>
+            <field name="code">MKT</field>
+            <field name="description">Marketing and advertising expenses.</field>
+        </record>
+
+        <record id="demo_expense_admin" model="nn.fund.expense.head">
+            <field name="name">Administrative</field>
+            <field name="code">ADM</field>
+            <field name="description">General administrative and office supplies.</field>
+        </record>
+
+    </data>
+</odoo>
