@@ -37,15 +37,15 @@
                     <div class="oe_button_box" name="button_box">
                         <button name="%(action_fund_incoming)d" type="action"
                                 class="oe_stat_button" icon="fa-money"
-                                context="{'default_fund_account_id': active_id,
-                                          'search_default_fund_account_id': active_id}">
+                                context="{'default_fund_account_id': id,
+                                          'search_default_fund_account_id': id}">
                             <field name="incoming_fund_count" widget="statinfo"
                                    string="Incoming Funds"/>
                         </button>
                         <button name="%(action_fund_allocation)d" type="action"
                                 class="oe_stat_button" icon="fa-share-alt"
-                                context="{'default_fund_account_id': active_id,
-                                          'search_default_fund_account_id': active_id}">
+                                context="{'default_fund_account_id': id,
+                                          'search_default_fund_account_id': id}">
                             <field name="allocation_count" widget="statinfo"
                                    string="Allocations"/>
                         </button>
