@@ -18,7 +18,7 @@
         id="menu_fund_dashboard"
         name="Dashboard"
         parent="menu_fund_management_root"
-        action="action_fund_dashboard"
+        action="action_fund_dashboard_server"
         sequence="1"/>
 
     <!-- ============================================================ -->
