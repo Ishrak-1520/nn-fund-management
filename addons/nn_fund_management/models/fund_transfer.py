@@ -52,24 +52,18 @@ class FundTransfer(models.Model):
         string='Source Type',
         required=True,
         tracking=True,
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
     source_project_id = fields.Many2one(
         'nn.fund.project',
         string='Source Project',
         tracking=True,
         index=True,
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
     source_expense_head_id = fields.Many2one(
         'nn.fund.expense.head',
         string='Source Expense Head',
         tracking=True,
         index=True,
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
 
     # ── Destination ──────────────────────────────────────────────────
@@ -81,24 +75,18 @@ class FundTransfer(models.Model):
         string='Destination Type',
         required=True,
         tracking=True,
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
     dest_project_id = fields.Many2one(
         'nn.fund.project',
         string='Destination Project',
         tracking=True,
         index=True,
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
     dest_expense_head_id = fields.Many2one(
         'nn.fund.expense.head',
         string='Destination Expense Head',
         tracking=True,
         index=True,
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
 
     # ── Transfer details ─────────────────────────────────────────────
@@ -107,13 +95,9 @@ class FundTransfer(models.Model):
         required=True,
         tracking=True,
         currency_field='currency_id',
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
     reason = fields.Text(
         string='Reason',
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
     currency_id = fields.Many2one(
         'res.currency',

@@ -45,42 +45,30 @@ class FundRequisition(models.Model):
         string='Requisition For',
         required=True,
         tracking=True,
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
     project_id = fields.Many2one(
         'nn.fund.project',
         string='Project',
         tracking=True,
         index=True,
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
     expense_head_id = fields.Many2one(
         'nn.fund.expense.head',
         string='Expense Head',
         tracking=True,
         index=True,
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
     amount = fields.Monetary(
         string='Requested Amount',
         required=True,
         tracking=True,
         currency_field='currency_id',
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
     purpose = fields.Text(
         string='Purpose',
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
     required_date = fields.Date(
         string='Required Date',
-        states={'draft': [('readonly', False)]},
-        readonly=True,
         help='Date by which the funds are needed.',
     )
     attachment_ids = fields.Many2many(

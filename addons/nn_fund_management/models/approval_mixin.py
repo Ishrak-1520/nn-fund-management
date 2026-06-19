@@ -49,16 +49,12 @@ class ApprovalMixin(models.AbstractModel):
         'res.users',
         string='Requested By',
         default=lambda self: self.env.user,
-        readonly=True,
-        states={'draft': [('readonly', False)]},
         tracking=True,
         index=True,
     )
     request_date = fields.Date(
         string='Request Date',
         default=fields.Date.context_today,
-        readonly=True,
-        states={'draft': [('readonly', False)]},
         tracking=True,
     )
     submitted_date = fields.Datetime(

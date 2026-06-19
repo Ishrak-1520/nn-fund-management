@@ -58,15 +58,16 @@
                     </div>
                     <group>
                         <group string="Fund Details">
-                            <field name="fund_account_id"/>
-                            <field name="date"/>
-                            <field name="amount" widget="monetary"/>
+                            <field name="fund_account_id" readonly="state != 'draft'"/>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="amount" widget="monetary" readonly="state != 'draft'"/>
                             <field name="currency_id" invisible="1"/>
                         </group>
                         <group string="Transaction Info">
                             <field name="transaction_reference"
-                                   placeholder="e.g. Bank TXN-2026-001"/>
-                            <field name="sender" placeholder="e.g. Client XYZ"/>
+                                   placeholder="e.g. Bank TXN-2026-001"
+                                   readonly="state != 'draft'"/>
+                            <field name="sender" placeholder="e.g. Client XYZ" readonly="state != 'draft'"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                     </group>
@@ -77,7 +78,8 @@
                     <notebook>
                         <page string="Description" name="description">
                             <field name="description"
-                                   placeholder="Additional details about this incoming fund..."/>
+                                   placeholder="Additional details about this incoming fund..."
+                                   readonly="state != 'draft'"/>
                         </page>
                         <page string="Attachments" name="attachments">
                             <field name="attachment_ids" widget="many2many_binary"/>

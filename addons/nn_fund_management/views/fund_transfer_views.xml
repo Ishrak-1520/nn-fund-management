@@ -76,32 +76,36 @@
                     </div>
                     <group>
                         <group string="Source">
-                            <field name="source_type" widget="radio"/>
+                            <field name="source_type" widget="radio" readonly="state != 'draft'"/>
                             <field name="source_project_id"
                                    invisible="source_type != 'project'"
-                                   required="source_type == 'project'"/>
+                                   required="source_type == 'project'"
+                                   readonly="state != 'draft'"/>
                             <field name="source_expense_head_id"
                                    invisible="source_type != 'expense_head'"
-                                   required="source_type == 'expense_head'"/>
+                                   required="source_type == 'expense_head'"
+                                   readonly="state != 'draft'"/>
                         </group>
                         <group string="Destination">
-                            <field name="dest_type" widget="radio"/>
+                            <field name="dest_type" widget="radio" readonly="state != 'draft'"/>
                             <field name="dest_project_id"
                                    invisible="dest_type != 'project'"
-                                   required="dest_type == 'project'"/>
+                                   required="dest_type == 'project'"
+                                   readonly="state != 'draft'"/>
                             <field name="dest_expense_head_id"
                                    invisible="dest_type != 'expense_head'"
-                                   required="dest_type == 'expense_head'"/>
+                                   required="dest_type == 'expense_head'"
+                                   readonly="state != 'draft'"/>
                         </group>
                     </group>
                     <group>
                         <group string="Transfer Details">
-                            <field name="amount" widget="monetary"/>
+                            <field name="amount" widget="monetary" readonly="state != 'draft'"/>
                             <field name="currency_id" invisible="1"/>
                         </group>
                         <group string="Request Info">
-                            <field name="requested_by" widget="many2one_avatar_user"/>
-                            <field name="request_date"/>
+                            <field name="requested_by" widget="many2one_avatar_user" readonly="state != 'draft'"/>
+                            <field name="request_date" readonly="state != 'draft'"/>
                             <field name="submitted_date" invisible="state == 'draft'"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
@@ -127,7 +131,8 @@
                     <notebook>
                         <page string="Reason" name="reason">
                             <field name="reason"
-                                   placeholder="Explain why this fund transfer is needed..."/>
+                                   placeholder="Explain why this fund transfer is needed..."
+                                   readonly="state != 'draft'"/>
                         </page>
                         <page string="Approval History" name="history">
                             <field name="approval_history_ids" readonly="1">

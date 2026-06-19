@@ -42,8 +42,6 @@ class FundAllocation(models.Model):
         required=True,
         tracking=True,
         index=True,
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
     allocation_type = fields.Selection(
         selection=[
@@ -53,37 +51,27 @@ class FundAllocation(models.Model):
         string='Allocate To',
         required=True,
         tracking=True,
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
     project_id = fields.Many2one(
         'nn.fund.project',
         string='Project',
         tracking=True,
         index=True,
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
     expense_head_id = fields.Many2one(
         'nn.fund.expense.head',
         string='Expense Head',
         tracking=True,
         index=True,
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
     amount = fields.Monetary(
         string='Amount',
         required=True,
         tracking=True,
         currency_field='currency_id',
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
     purpose = fields.Text(
         string='Purpose',
-        states={'draft': [('readonly', False)]},
-        readonly=True,
     )
     attachment_ids = fields.Many2many(
         'ir.attachment',

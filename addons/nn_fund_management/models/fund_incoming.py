@@ -34,36 +34,30 @@ class FundIncoming(models.Model):
         required=True,
         tracking=True,
         index=True,
-        states={'confirmed': [('readonly', True)]},
     )
     date = fields.Date(
         string='Received Date',
         required=True,
         default=fields.Date.context_today,
         tracking=True,
-        states={'confirmed': [('readonly', True)]},
     )
     amount = fields.Monetary(
         string='Amount',
         required=True,
         tracking=True,
         currency_field='currency_id',
-        states={'confirmed': [('readonly', True)]},
     )
     transaction_reference = fields.Char(
         string='Transaction Reference',
         tracking=True,
-        states={'confirmed': [('readonly', True)]},
         help='Bank transaction reference number. Must be unique per fund account.',
     )
     sender = fields.Char(
         string='Sender / Source',
         tracking=True,
-        states={'confirmed': [('readonly', True)]},
     )
     description = fields.Text(
         string='Description',
-        states={'confirmed': [('readonly', True)]},
     )
     attachment_ids = fields.Many2many(
         'ir.attachment',

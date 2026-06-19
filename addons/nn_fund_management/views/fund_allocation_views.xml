@@ -82,20 +82,22 @@
                     </div>
                     <group>
                         <group string="Allocation Details">
-                            <field name="fund_account_id"/>
-                            <field name="allocation_type" widget="radio"/>
+                            <field name="fund_account_id" readonly="state != 'draft'"/>
+                            <field name="allocation_type" widget="radio" readonly="state != 'draft'"/>
                             <field name="project_id"
                                    invisible="allocation_type != 'project'"
-                                   required="allocation_type == 'project'"/>
+                                   required="allocation_type == 'project'"
+                                   readonly="state != 'draft'"/>
                             <field name="expense_head_id"
                                    invisible="allocation_type != 'expense_head'"
-                                   required="allocation_type == 'expense_head'"/>
-                            <field name="amount" widget="monetary"/>
+                                   required="allocation_type == 'expense_head'"
+                                   readonly="state != 'draft'"/>
+                            <field name="amount" widget="monetary" readonly="state != 'draft'"/>
                             <field name="currency_id" invisible="1"/>
                         </group>
                         <group string="Request Info">
-                            <field name="requested_by" widget="many2one_avatar_user"/>
-                            <field name="request_date"/>
+                            <field name="requested_by" widget="many2one_avatar_user" readonly="state != 'draft'"/>
+                            <field name="request_date" readonly="state != 'draft'"/>
                             <field name="submitted_date" invisible="state == 'draft'"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
@@ -123,7 +125,8 @@
                     <notebook>
                         <page string="Purpose" name="purpose">
                             <field name="purpose"
-                                   placeholder="Describe the purpose of this allocation..."/>
+                                   placeholder="Describe the purpose of this allocation..."
+                                   readonly="state != 'draft'"/>
                         </page>
                         <page string="Attachments" name="attachments">
                             <field name="attachment_ids" widget="many2many_binary"/>
