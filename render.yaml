@@ -1,0 +1,38 @@
+# Render Blueprint - NN Fund Management (Odoo 18)
+# This file defines the infrastructure for automatic deployment on Render.com
+
+services:
+  - type: web
+    name: nn-fund-management
+    runtime: docker
+    dockerfilePath: ./Dockerfile.render
+    plan: free
+    envVars:
+      - key: HOST
+        fromDatabase:
+          name: nn-fund-db
+          property: host
+      - key: PORT
+        fromDatabase:
+          name: nn-fund-db
+          property: port
+      - key: USER
+        fromDatabase:
+          name: nn-fund-db
+          property: user
+      - key: PASSWORD
+        fromDatabase:
+          name: nn-fund-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: nn-fund-db
+          property: database
+      - key: ADMIN_PASSWORD
+        generateValue: true
+
+databases:
+  - name: nn-fund-db
+    plan: free
+    databaseName: nn_fund_management
+    user: odoo

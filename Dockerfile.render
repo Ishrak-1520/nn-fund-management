@@ -1,0 +1,30 @@
+FROM odoo:18.0
+
+USER root
+
+# Install any additional Python dependencies
+COPY requirements.txt /tmp/requirements.txt
+RUN pip3 install --no-cache-dir --break-system-packages -r /tmp/requirements.txt && \
+    rm /tmp/requirements.txt
+
+# Copy custom addons
+COPY ./addons /mnt/extra-addons
+
+# Copy Render-specific Odoo configuration
+COPY ./odoo.render.conf /etc/odoo/odoo.conf
+
+# Create log directory and fix permissions
+RUN mkdir -p /var/log/odoo && \
+    chown -R odoo:odoo /mnt/extra-addons && \
+    chown -R odoo:odoo /var/log/odoo && \
+    chown odoo:odoo /etc/odoo/odoo.conf
+
+# Create entrypoint script that injects DB credentials from env vars
+COPY ./render-entrypoint.sh /render-entrypoint.sh
+RUN chmod +x /render-entrypoint.sh
+
+USER odoo
+
+EXPOSE 8069
+
+ENTRYPOINT ["/render-entrypoint.sh"]
