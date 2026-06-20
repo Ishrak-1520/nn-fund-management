@@ -5,6 +5,14 @@
 
 ---
 
+### 🌐 Live Demo Deployment
+- **URL**: [https://nn-fund-management.onrender.com/](https://nn-fund-management.onrender.com/)
+- **Default Login**: `admin`
+- **Default Password**: `admin`
+
+---
+
+
 ## Table of Contents
 
 1. [Overview](#overview)
