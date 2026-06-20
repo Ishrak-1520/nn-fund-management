@@ -62,13 +62,12 @@ else
     DB_PORT="${DB_PORT:-5432}"
     USER="${USER:-odoo}"
     PASSWORD="${PASSWORD:-odoo}"
-    DB_NAME="${DB_NAME:-False}"
+    DB_NAME="${DB_NAME:-nn_fund_management}"
 fi
 
 CONFIG_FILE="/etc/odoo/odoo.conf"
 
 # Create a temporary config with injected values
-# Note: We set db_name = False so Odoo boots into database manager mode for initialization.
 # Note: We set http_port = ${PORT:-8069} so Odoo binds to Render's dynamic HTTP port.
 cat > /tmp/odoo.conf << EOF
 [options]
@@ -78,7 +77,7 @@ db_host = ${HOST}
 db_port = ${DB_PORT}
 db_user = ${USER}
 db_password = ${PASSWORD}
-db_name = False
+db_name = ${DB_NAME}
 list_db = True
 db_sslmode = require
 
@@ -102,6 +101,42 @@ limit_memory_soft = 419430400
 limit_time_cpu = 600
 limit_time_real = 1200
 EOF
+
+# Check if the database needs initialization
+echo "Checking if database is initialized..."
+DB_STATUS=$(python3 -c "
+import psycopg2
+import sys
+try:
+    conn = psycopg2.connect(
+        host='${HOST}',
+        port='${DB_PORT}',
+        user='${USER}',
+        password='${PASSWORD}',
+        database='${DB_NAME}',
+        sslmode='require'
+    )
+    cur = conn.cursor()
+    cur.execute(\"SELECT 1 FROM information_schema.tables WHERE table_name = 'ir_module_module';\")
+    exists = cur.fetchone()
+    cur.close()
+    conn.close()
+    if exists:
+        print('INITIALIZED')
+    else:
+        print('EMPTY')
+except Exception as e:
+    print('ERROR:', e)
+")
+
+echo "Database status: $DB_STATUS"
+
+if [ "$DB_STATUS" = "EMPTY" ]; then
+    echo "Database is empty. Initializing Odoo database schema..."
+    # Run Odoo initialization for base module and then stop
+    odoo -c /tmp/odoo.conf -d ${DB_NAME} -i base --stop-after-init
+    echo "Database schema initialized successfully."
+fi
 
 # Start Odoo with the generated config
 exec odoo -c /tmp/odoo.conf "$@"
