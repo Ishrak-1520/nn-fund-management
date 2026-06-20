@@ -12,7 +12,7 @@ services:
         fromDatabase:
           name: nn-fund-db
           property: host
-      - key: PORT
+      - key: DB_PORT
         fromDatabase:
           name: nn-fund-db
           property: port

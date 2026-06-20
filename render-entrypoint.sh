@@ -42,10 +42,10 @@ if [ -n "$DB_CONN_URL" ]; then
     
     if [[ "$host_port" == *":"* ]]; then
         HOST="${host_port%%:*}"
-        PORT="${host_port#*:}"
+        DB_PORT="${host_port#*:}"
     else
         HOST="$host_port"
-        PORT="5432"
+        DB_PORT="5432"
     fi
     
     # Strip any trailing query params if present in database name
@@ -53,13 +53,13 @@ if [ -n "$DB_CONN_URL" ]; then
     
     echo "Successfully parsed connection URL:"
     echo "  Host: $HOST"
-    echo "  Port: $PORT"
+    echo "  Port: $DB_PORT"
     echo "  User: $USER"
     echo "  Database: $DB_NAME"
 else
     # Fallback to standard environment variables
     HOST="${HOST:-localhost}"
-    PORT="${PORT:-5432}"
+    DB_PORT="${DB_PORT:-5432}"
     USER="${USER:-odoo}"
     PASSWORD="${PASSWORD:-odoo}"
     DB_NAME="${DB_NAME:-False}"
@@ -68,23 +68,25 @@ fi
 CONFIG_FILE="/etc/odoo/odoo.conf"
 
 # Create a temporary config with injected values
+# Note: We set db_name = False so Odoo boots into database manager mode for initialization.
+# Note: We set http_port = ${PORT:-8069} so Odoo binds to Render's dynamic HTTP port.
 cat > /tmp/odoo.conf << EOF
 [options]
 ; Database settings
 admin_passwd = ${ADMIN_PASSWORD:-admin}
 db_host = ${HOST}
-db_port = ${PORT}
+db_port = ${DB_PORT}
 db_user = ${USER}
 db_password = ${PASSWORD}
-db_name = ${DB_NAME}
-list_db = False
+db_name = False
+list_db = True
 db_sslmode = require
 
 ; Addons path
 addons_path = /usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons
 
-; Server settings
-http_port = 8069
+; Server settings (bind to the port Render expects)
+http_port = ${PORT:-8069}
 proxy_mode = True
 without_demo = False
 
